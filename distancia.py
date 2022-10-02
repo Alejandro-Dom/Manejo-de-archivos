@@ -69,3 +69,4 @@ except KeyboardInterrupt:
     #Liberar los recursos de manejo de hardware
     GPIO.cleanup()
 
+#Token para GitHub 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
