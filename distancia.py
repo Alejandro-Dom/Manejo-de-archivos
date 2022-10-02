@@ -35,6 +35,7 @@ try:
         f.write(sTimeStamp + "," + str(distancia) + "\n")
         print(sTimeStamp + " " + str(distancia))
         time.sleep(1)
+        sTmpFileStamp = time.strftime('%Y%m%d%H')
         if sTmpFileStamp != sFileStamp:
             f.close
             sFileName = "out/" + sTmpFileStamp + ".txt"
