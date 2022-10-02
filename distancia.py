@@ -18,23 +18,39 @@ f = open(sFileName, "a")    #Se abre el archivo dándole como argumento la varia
 f.write("TimeStamp, Value" + "\n")  #Se imprime una primera líena en el documento
 print("Inicia la toma de datos") #Se envía un mensaje en cosola que indica que se inicia la toma de datos
 
+#Intentar lo siguiente
 try:
+    #Repetir indefinidamente
     while True:
         print("Acerque el objeto para medir la distancia")
+        
+        #Bloque que activa al sensor
         GPIO.output(GPIO_TRIGGER,True)
         time.sleep(0.00001)
         GPIO.output(GPIO_TRIGGER,False)
+        
+        #Medir la señal de respuesta del sensor
         start = time.time()
         while GPIO.input(GPIO_ECHO) == 0:
             start = time.time()
         while GPIO.input(GPIO_ECHO) == 1:
             stop = time.time()
+            
+        #Calcular el periodo del pulso de respuesta del sensor
         elapsed = stop-start
+        
+        #Ecuación para calcularl a distancia
         distancia = (elapsed*343000)/2
+        
+        #Realizar log en archivo de texto
         sTimeStamp = time.strftime("%Y%m%d%H%M%S")
         f.write(sTimeStamp + "," + str(distancia) + "\n")
         print(sTimeStamp + " " + str(distancia))
+        
+        #Espera entre lecturas
         time.sleep(1)
+        
+        #Reportar y crear el archivo en caso de que no exista
         sTmpFileStamp = time.strftime('%Y%m%d%H')
         if sTmpFileStamp != sFileStamp:
             f.close
@@ -42,8 +58,14 @@ try:
             f = open(sFileName, "a")
             sFileStamp = sTmpFileStamp
             print("Creando el archivo")
+            
+#Acciones a realizar ante un error o interrupción del programa
 except KeyboardInterrupt:
     print("\n" + "Termina la captura de datos" + "\n")
+    
+    #Cerrar el archivo
     f.close
+    
+    #Liberar los recursos de manejo de hardware
     GPIO.cleanup()
 
