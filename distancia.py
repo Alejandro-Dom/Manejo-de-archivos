@@ -1,6 +1,4 @@
 # Se importan bibliotecas para la comunicación con la Raspberry y manejar las fechas.
-from nbformat import write
-from setuptools import setup
 import RPi.GPIO as GPIO  #Biblioteca para manejo de pines
 import time              #Biblioteca para funciones de tiempo
 from datetime import datetime   #Biblioteca para manejo de fechas
